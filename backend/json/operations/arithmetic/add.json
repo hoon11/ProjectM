@@ -1,0 +1,22 @@
+{
+    "name": "add",
+    "label": "tf.add(a,b)",
+    "type": "operations",
+    "category": "arithmetic",
+    "description": "Adds two tf.Tensors element-wise, A + B. Supports broadcasting. \n We also expose tf.addStrict which has the same signature as this op and asserts that a and b are the same shape (does not broadcast).",
+    "parameters": [
+        {
+            "name": "a",
+            "label": "a",
+            "type": ["tf.Tensor","TypedArray","Array"],
+            "description": "The first tf.Tensor to add."
+        },
+        {
+            "name": "b",
+            "label": "b",
+            "type": ["tf.Tensor","TypedArray","Array"],
+            "description": "The second tf.Tensor to add. Must have the same type as a."
+        }
+    ],
+    "returns": "tf.Tensor"
+}
