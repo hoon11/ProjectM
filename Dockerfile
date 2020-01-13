@@ -1,14 +1,38 @@
 FROM elixir:1.8.1
 
-ENV NODE_VERSION 10.x
+RUN cd $HOME
+# update
+RUN dnf -y update
 
-RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash \
-  && apt-get install -y nodejs
+# install git
+RUN dnf install git
 
-RUN npm install npm@latest -g
+# install asdf 
+RUN git clone https://github.com/asdf-vm/asdf.git
 
-RUN mix local.hex --force && \
-  mix archive.install hex phx_new 1.4.3 --force && \
-  mix local.rebar --force
+RUN echo -e '\n. $HOME/asdf/asdf.sh' >> ~/.bashrc
+RUN echo -e '\n. $HOME/asdf/completions/asdf.bash' >> ~/.bashrc
+RUN source ~/.bashrc
+RUN dnf install \
+  automake autoconf readline-devel \
+  ncurses-devel openssl-devel \
+  libxslt-devel libffi-devel libtool unixODBC-devel \
+  unzip curl \
+  make
 
-WORKDIR /app
+# install erlang
+RUN asdf plugin-add erlang
+RUN asdf install erlang 22.1
+# install elixir
+RUN asdf plugin-add elixir
+RUN asdf install elixir 1.9.1-otp-22
+
+# node *for phx
+RUN asdf plugin-add nodejs
+
+# asdf global 
+RUN asdf global erlang 22.1
+RUN asdf global elixir 1.9.1-otp-22
+
+
+# docker image run
